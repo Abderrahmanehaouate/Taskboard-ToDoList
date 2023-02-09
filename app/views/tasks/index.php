@@ -69,24 +69,25 @@
                         <!-- form -->
                         <div class="mb-3">
                             <label class="form-label">Nubmer of tasks do you want to add</label>
-                            <input type="number"  id="form-count" onchange="createForms()" class="form-control">
+                            <input type="number"  min="1" id="form-count" value="1" onchange="createForms()" class="form-control">
                         </div>
+                        <!-- form -->
                         <form id="addMultipTaskForm">
 
                             <div id="forms-container">
                                 <div class="mb-3">
-                                    <label class="form-label">Add Task description</label>
-                                    <input type="text" name="description" required class="form-control">
+                                    <label class="form-label">Add Task description 1</label>
+                                    <input type="text" name="description[]" required class="form-control">
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">Deadline of Task</label>
-                                    <input type="date" name="deadline"  class="form-control" >
+                                    <label class="form-label">Deadline of Task 1</label>
+                                    <input type="date" name="deadline[]"  class="form-control" >
                                 </div>
                             </div>
 
                     </div>
                             <div class="modal-footer d-flex justify-content-center">
-                                <button class="submit-task btn btn-primary" >Submit</button>
+                                <button id="submit-task-multip" class=" btn btn-primary" >Submit</button>
                             </div>
 
                     </form>
@@ -99,12 +100,11 @@
         function createForms() {
 
         let formCount = document.getElementById("form-count");
-        let formCountValue = formCount.value;
-        if(formCountValue <=0 || isNaN(formCountValue)) {
+        if(formCount.value <=0 || isNaN(formCount.value)) {
 
             formCount.value = 1;
         
-        } else if(formCountValue > 6) formCountValue = 6;
+        } else if(formCount.value > 6) formCount.value = 6;
 
         var formsContainer = document.getElementById("forms-container");
 
@@ -115,11 +115,11 @@
             div.innerHTML = `
                             <div class="mb-3">
                                 <label class="form-label">Add Task description ${(i+1)}</label>
-                                <input type="text" name="description" required class="form-control">
+                                <input type="text" name="description[]" required class="form-control">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Deadline of Task ${(i+1)}</label>
-                                <input type="date" name="deadline" min="<?= date(
+                                <input type="date" name="deadline[]" min="<?= date(
                                     'Y-m-d'
                                 ) ?>" class="form-control" >
                             </div>`;

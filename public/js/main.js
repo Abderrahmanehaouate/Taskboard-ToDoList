@@ -1,9 +1,9 @@
-
 const todos = document.querySelector('.todo-wrapper');
 const doings = document.querySelector('.doing-wrapper');
 const dones = document.querySelector('.done-wrapper');
 
 const submitTaskBtn = document.querySelector('.submit-task');
+const submitMultipTaskBtn = document.getElementById('submit-task-multip');
 const updateTaskBtn = document.querySelector('.update-task');
     //   add task 
 submitTaskBtn.addEventListener('click',(e)=>{
@@ -26,12 +26,15 @@ submitTaskBtn.addEventListener('click',(e)=>{
     })
 })
 
-submitTaskBtn.addEventListener('click',(e)=>{
+submitMultipTaskBtn.addEventListener('click',(e)=>{
     e.preventDefault();
+    console.log('clicked');
     let addMultipTaskForm = document.getElementById('addMultipTaskForm');
     const formData = new FormData(addMultipTaskForm);
 
-    fetch('http://localhost/taskboard/tasks/addTask',{
+    console.log(formData);
+
+    fetch('http://localhost/taskboard/tasks/addMultipTasks',{
         method:"post",
         body: formData
     })
@@ -76,7 +79,7 @@ function getAllTasks(){
         return response.json();
     })
     .then(function(data) {
-        console.log(data);
+    
         appendTasks(data);
     });
 }
@@ -166,7 +169,7 @@ function deleteTask(id){
     .then((data)=>{
         console.log(data);
         if(!data.error){
-            getAllTasks();
+            getAllTasks();   
         }
     })
 }

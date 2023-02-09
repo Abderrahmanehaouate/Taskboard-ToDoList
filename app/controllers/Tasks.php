@@ -8,10 +8,10 @@ class Tasks extends Controller
             redirect('users/login');
         }
         $this->taskModel = $this->model('Task');
-
     }
 
-    public function index(){
+    public function index()
+    {
         // Get task
         $tasks = $this->taskModel->getTasks();
         $data = [
@@ -20,8 +20,8 @@ class Tasks extends Controller
         $this->view('tasks/index', $data);
     }
 
-    public function addTask(){
-
+    public function addTask()
+    {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
@@ -43,7 +43,10 @@ class Tasks extends Controller
                 $errors['description_err'] = 'Please enter description of task';
             }
 
-            if ( empty($errors['deadline_err']) && empty($errors['description_err']) ) {
+            if (
+                empty($errors['deadline_err']) &&
+                empty($errors['description_err'])
+            ) {
                 //Validated
                 if ($this->taskModel->addTask($data)) {
                     echo json_encode([
@@ -66,35 +69,32 @@ class Tasks extends Controller
         }
     }
 
+    public function addMultipTasks()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-public function addMultipTasks(){
-
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-        
-        $data = [
-            'user_id' => $_SESSION['user_id'],
-            'deadline' => trim($_POST['deadline']),
-            'description' => trim($_POST['description']),
-        ];
-
-        if ($this->taskModel->addMultipTask($data)) {
-            echo json_encode([
-                'message' => 'Task added successfully',
-                'error' => false,
-            ]);
-        } else {
-            echo json_encode([
-                'message' => 'Ops somethind went wrong!',
-                'error' => true,
-            ]);
+            for ($i = 0; $i < count($_POST['deadline']); $i++) {
+                $data = [
+                    'user_id' => $_SESSION['user_id'],
+                    'deadline' => trim($_POST['deadline'][$i]),
+                    'description' => trim($_POST['description'][$i]),
+                ];
+                $info = $this->taskModel->addMultipTask($data);
+            }
+            if ($info) {
+                echo json_encode([
+                    'message' => 'Task added successfully',
+                    'error' => false,
+                ]);
+            } else {
+                echo json_encode([
+                    'message' => 'Ops somethind went wrong!',
+                    'error' => true,
+                ]);
+            }
         }
     }
-}
-
-
-
-
 
     public function getTasks()
     {
@@ -122,7 +122,6 @@ public function addMultipTasks(){
             }
         }
     }
-
 
     public function updateTask()
     {
