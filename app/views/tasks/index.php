@@ -103,14 +103,11 @@
         if(formCount.value <=0 || isNaN(formCount.value)) {
 
             formCount.value = 1;
-        
         } else if(formCount.value > 6) formCount.value = 6;
-
         var formsContainer = document.getElementById("forms-container");
 
         formsContainer.innerHTML = "";
         for(var i = 0; i < formCount.value ; i++) {
-
             var div = document.createElement("div");
             div.innerHTML = `
                             <div class="mb-3">

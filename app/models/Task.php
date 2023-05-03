@@ -40,7 +40,6 @@ public function addTask($data){
     public function addMultipTask($data){
         
         $this->db->query('INSERT INTO tasks (description , deadline, user_id) VALUE (:description , :deadline, :user_id )');
-
         $this->db->bind(':user_id' ,$data['user_id']);
         $this->db->bind(':description' ,$data['description']);
         $this->db->bind(':deadline' ,$data['deadline']);
@@ -50,10 +49,7 @@ public function addTask($data){
         }else{
             return false; 
         }
-
     }
-
-
 
     public function delete($id)
     {
@@ -67,9 +63,6 @@ public function addTask($data){
             return false;
         }
     }
-
-
-
 
     public function updateTask($data)
     {
